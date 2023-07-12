@@ -131,3 +131,15 @@ series/dorms: sorted
 	nice pypy3 -m flow_models.series -i binary -O series/dorms --filter-expr '((sa3 >= 2510060545) & (sa3 < 2510060566)) | ((da3 >= 2510060545) & (da3 < 2510060566))' sorted
 	cd series/dorms; python3 -m flow_models.series_plot
 
+first_mirror/all/%: sorted
+	nice pypy3 -m flow_models.first_mirror.simulate -i binary -O first_mirror/all/$* --mirror $* sorted
+
+first_mirror/tcp/%: sorted
+	nice pypy3 -m flow_models.first_mirror.simulate -i binary -O first_mirror/tcp/$* --mirror $* --filter-expr "prot==6" sorted
+
+first_mirror/udp/%: sorted
+	nice pypy3 -m flow_models.first_mirror.simulate -i binary -O first_mirror/udp/$* --mirror $* --filter-expr "prot==17" sorted
+
+first_mirror/%: first_mirror/$$*/1 first_mirror/$$*/2 first_mirror/$$*/3 first_mirror/$$*/4 first_mirror/$$*/8
+	true
+
