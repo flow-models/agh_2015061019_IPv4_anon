@@ -115,3 +115,19 @@ summary/%: histograms/$$*/length_b0.csv histograms/$$*/size_b0.csv
 	python3 -m flow_models.summary histograms/$*/length_b0.csv > summary/$*/length.tex
 	python3 -m flow_models.summary histograms/$*/size_b0.csv > summary/$*/size.tex
 
+series/all: sorted
+	nice pypy3 -m flow_models.series -i binary -O series/all sorted
+	cd series/all;	python3 -m flow_models.series_plot
+
+series/tcp: sorted
+	nice pypy3 -m flow_models.series -i binary -O series/tcp --filter-expr "prot==6" sorted
+	cd series/tcp;	python3 -m flow_models.series_plot
+
+series/udp: sorted
+	nice pypy3 -m flow_models.series -i binary -O series/udp --filter-expr "prot==17" sorted
+	cd series/udp;	python3 -m flow_models.series_plot
+
+series/dorms: sorted
+	nice pypy3 -m flow_models.series -i binary -O series/dorms --filter-expr '((sa3 >= 2510060545) & (sa3 < 2510060566)) | ((da3 >= 2510060545) & (da3 < 2510060566))' sorted
+	cd series/dorms; python3 -m flow_models.series_plot
+
