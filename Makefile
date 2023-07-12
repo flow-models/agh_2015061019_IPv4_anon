@@ -110,3 +110,8 @@ plots/%: histograms/$$*/length.csv histograms/$$*/size.csv mixtures/$$*/length m
 	cd $@/size; python3 -m flow_models.plot -P points -P comp --format pdf -x size ../../../histograms/$*/size.csv ../../../mixtures/$*/size
 	cd $@/size; python3 -m flow_models.plot -P points -P comp --format pdf --single -x size ../../../histograms/$*/size.csv ../../../mixtures/$*/size
 
+summary/%: histograms/$$*/length_b0.csv histograms/$$*/size_b0.csv
+	mkdir -p $@
+	python3 -m flow_models.summary histograms/$*/length_b0.csv > summary/$*/length.tex
+	python3 -m flow_models.summary histograms/$*/size_b0.csv > summary/$*/size.tex
+
