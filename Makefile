@@ -143,3 +143,5 @@ first_mirror/udp/%: sorted
 first_mirror/%: first_mirror/$$*/1 first_mirror/$$*/2 first_mirror/$$*/3 first_mirror/$$*/4 first_mirror/$$*/8
 	true
 
+sklearn: sorted
+	python3 -m flow_models.elephants.sklearn.sklearn --mixture ../agh_2015/mixtures/all/size --seed 0 sorted
