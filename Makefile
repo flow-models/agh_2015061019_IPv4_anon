@@ -102,3 +102,11 @@ mixtures/udp/size: histograms/udp/size.csv
 mixtures/%: mixtures/$$*/length mixtures/$$*/size
 	true
 
+plots/%: histograms/$$*/length.csv histograms/$$*/size.csv mixtures/$$*/length mixtures/$$*/size
+	mkdir -p $@/length
+	cd $@/length; python3 -m flow_models.plot -P points -P comp --format pdf -x length ../../../histograms/$*/length.csv ../../../mixtures/$*/length
+	cd $@/length; python3 -m flow_models.plot -P points -P comp --format pdf --single -x length ../../../histograms/$*/length.csv ../../../mixtures/$*/length
+	mkdir -p $@/size
+	cd $@/size; python3 -m flow_models.plot -P points -P comp --format pdf -x size ../../../histograms/$*/size.csv ../../../mixtures/$*/size
+	cd $@/size; python3 -m flow_models.plot -P points -P comp --format pdf --single -x size ../../../histograms/$*/size.csv ../../../mixtures/$*/size
+
