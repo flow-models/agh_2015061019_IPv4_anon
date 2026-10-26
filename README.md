@@ -1,5 +1,7 @@
 # agh_2015061019_IPv4_anon
 
+## Citation
+
 Please cite as:
 
     @article{flow-models2,
@@ -15,40 +17,48 @@ Please cite as:
 
 Available at: https://doi.org/10.1016/j.softx.2023.101506
 
+## Overview
+
 This model is a subset of flows derived from the larger `agh_2015` dataset. It corresponds to a one-hour period between 19:00-20:00 UTC on Wednesday, June 10th. These flows were collected from the Internet-facing interface of the AGH University of Krakow network over a period of 30 consecutive days. The selected hour represents a typical working day with normal university operations and the presence of students in dormitories, which contributes to the majority of traffic.
 
 We have carefully examined the network traffic during this hour and confirmed that it is free from anomalies or irregularities that may indicate unusual network activity. Furthermore, the calculated theoretical reduction rate curves of a perfect elephant detection algorithm utilizing only the first packet for this specific hour closely resemble those of the entire `agh_2015` dataset.
 
 This model includes full flow records in a binary format. To protect privacy, the IP addresses have been anonymized using the prefix-preserving Crypto-PAn algorithm. It is worth noting that this anonymization process does not adversely affect the performance of machine learning algorithms trained on these addresses, as demonstrated in the following plot:
 
-![](sklearn-anon.svg)
+![](ALL/sklearn-anon.svg)
 
 Dormitories, populated with nearly 8000 students, generated 86% of the traffic. The rest of the university (over 4000 employees) generated 14%. Therefore, this model can also be considered as representative of residential traffic.
 
-In order to reproduce all steps towards creating artifacts in this repository use the following commands:
+## Models
 
-    make histograms/all
-    make histograms/tcp
-    make histograms/udp
-    make mixtures/all
-    make mixtures/tcp
-    make mixtures/udp
-    make plots/all
-    make plots/tcp
-    make plots/udp
-    make summary/all
-    make summary/tcp
-    make summary/udp
-    make series/all
-    make mirror/all
+The repository contains the unfiltered dataset in the [ALL](ALL) directory and filtered subsets in directories named after the applied filters:
+
+- [TCP](TCP) -- TCP flows only
+- [UDP](UDP) -- UDP flows only
+- [noDNS](noDNS) -- non-DNS flows only
+- [UDP/noDNS](UDP/noDNS) -- UDP flows excluding DNS
+- [TCP/HTTP](TCP/HTTP) -- HTTP/HTTPS flows only
+
+## Reproduction
+
+To reproduce all artifacts for the unfiltered dataset, use the top-level [Makefile](Makefile):
+
+    make histograms
+    make mixtures
+    make plots
+    make summary
+    make series
+    make first_mirror
 
 To use scikit-learn to fit a regressor detecting elephant flows run the following:
 
     make sklearn
 
-As a result of this command you should get a plot of flow table occupancy reduction curves, which will be saved in the [sklearn.pdf](sklearn.pdf) file.
+As a result of this command you should get a plot of flow table occupancy reduction curves, which will be saved in the [sklearn-anon.svg](ALL/sklearn-anon.svg) file.
 
 Please consult the [Makefile](Makefile) for more details.
+
+## Dataset summary
 
 | Parameter           |                    Value |      Unit |
 |---------------------|-------------------------:|----------:|
@@ -60,6 +70,7 @@ Please consult the [Makefile](Makefile) for more details.
 | Sampling rate       |                     none |           |
 | Active timeout      |                      300 |   seconds |
 | Inactive timeout    |                       15 |   seconds |
+| Filter expression   |                  af == 2 |           |
 | Flow records        |        included (binary) |           |
 | IP Anonymization    |               Crypto-PAn |           |
 |                     |                          |           |
