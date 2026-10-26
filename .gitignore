@@ -1,0 +1,16 @@
+# binary flow record files (nfdump-derived); root ALL/sorted is tracked
+**/ALL/dumps/
+**/ALL/cleaned/
+**/ALL/merged/
+**/ALL/sorted/
+!/ALL/sorted/
+
+**/ALL/histograms/*_b0.csv
+!/ALL/histograms/*_b0.csv
+
+# text series and mirror data (rendered by generated SVGs)
+**/ALL/series/**/*.flows
+**/ALL/series/**/*.packets
+**/ALL/series/**/*.octets
+**/ALL/first_mirror/**/*_mirrored
+*.pdf
